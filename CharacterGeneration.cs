@@ -37,6 +37,10 @@ namespace TextAdventureGame
 
             //string[,] RaceChoices = { {"Human","All","1"}, {"Dwarf","Con","2"}, {"Elf","Dex","2"}, {"Orc","Str,Con","2"}, {"Zombie","Con","2"} };
             string[] RaceChoices = { "Human", "Dwarf", "Elf", "Orc", "Zombie" };
+
+            //gonna set up a database eventually to populate this 
+            string[,] RaceBonuses = { { "Dw", "Con", "2" } };
+
             string[] ClassChoices = { "Paladin", "Hunter", "Archer", "Warrior", "Necromancer" };
 
             MainCharacter = InitialiseCharacter(Line);
@@ -55,7 +59,7 @@ namespace TextAdventureGame
                 MainCharacter.Wisdom = GenerateStats();
                 MainCharacter.Charisma = GenerateStats();
             }
-
+            MainCharacter = AddRacialBonuses(MainCharacter, RaceBonuses);
             return MainCharacter;
 
         }
@@ -249,45 +253,52 @@ namespace TextAdventureGame
 
             return total;
         }
-        private static void AddRacialBonuses(CharStats MainCharacter)
+        private static CharStats AddRacialBonuses(CharStats MainCharacter, string[,] RaceBonuses)
         {
-            //daft little array for practice
-            string[] racialbonus = { "con", "2" };
-            string[] BonusValue = { "2" };
-            
+            /***************************************************************
+            /*THIS WORKS
+            /*
+            /*
+            /*
+            /* Next Steps: set up the loop so it goes through every race bonus
+            /*     Functionalise the bit that adds the bonus to the main character 
+            /*****************************************************************/
+             
+            //take the first two characters out to relate to the RaceBonuses
+            string CharRace = MainCharacter.CharacterRace.Substring(0, 2);
+            int Count = 0;
 
-            //set up a list with different bonuses together in the list then can process each bonus individually
+            //Set up a loop to go through the whole racebonuses array.
 
-
-
-            foreach (string Bonus in racialbonus)
+            if (RaceBonuses[Count, 0] == CharRace)
             {
-                if (Bonus == "all")
+                switch (RaceBonuses[Count,1])
                 {
-                    //add one to all the bonuses
-                }
-                else if (Bonus.Contains(","))
-                {
-                    //split the string and work out what each one is.
-                }
-                else
-                {
-                    //apply the bonus to the character statistics
-                    switch (Bonus)
-                    {
-                        case "str":
-                            Console.WriteLine("strength");
-                            MainCharacter.Strength = MainCharacter.Strength + int.Parse(BonusValue[0]);
-                            Console.WriteLine("new strength is" + MainCharacter.Strength);
-                            break;
-                        case "dex":
-                            MainCharacter.Dexterity = MainCharacter.Dexterity + int.Parse(BonusValue[1]);
-                            Console.WriteLine("Dexterity");
-                            break;
-                    }
-
+                    case "Str":
+                        Console.WriteLine("strength");
+                        MainCharacter.Strength = MainCharacter.Strength + int.Parse(RaceBonuses[Count, 2]);
+                        Console.WriteLine("new strength is" + MainCharacter.Strength);
+                        break;
+                    case "Dex":
+                        MainCharacter.Dexterity = MainCharacter.Dexterity + int.Parse(RaceBonuses[Count, 2]);
+                        Console.WriteLine("Dexterity");
+                        break;
+                    case "Con":
+                        MainCharacter.Constitution = MainCharacter.Constitution + int.Parse(RaceBonuses[Count, 2]);
+                        Console.WriteLine("Constitution");
+                        MainCharacter.Intelligence = 12;
+                        break;
+                    case "Wis":
+                        MainCharacter.Wisdom = MainCharacter.Wisdom + int.Parse(RaceBonuses[Count, 2]);
+                        break;
+                    case "Car":
+                        MainCharacter.Charisma = MainCharacter.Charisma + int.Parse(RaceBonuses[Count, 2]);
+                                break;
                 }
             }
+
+            return MainCharacter;     
+           
         }
 
 
