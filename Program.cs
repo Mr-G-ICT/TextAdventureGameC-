@@ -26,15 +26,18 @@ namespace TextAdventureGame
                 case 1:
                     MainCharacter = CharacterGeneration.SetupMainCharacter();
                     CharacterGeneration.DisplayStats(MainCharacter);
+                    MainCharacter = FightClub.FightMechanic(MainCharacter);
                     break;
                 case 2:
                     MainCharacter = CharacterGeneration.LoadCharacter();
                     CharacterGeneration.DisplayStats(MainCharacter);
+                 
                     break;
                 case 3:
                     Console.WriteLine("thank you for playing, goodbye");
                     break;
             }
+            
 
             Console.ReadLine();
 
