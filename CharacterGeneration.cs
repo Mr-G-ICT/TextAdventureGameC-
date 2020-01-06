@@ -23,6 +23,21 @@ namespace TextAdventureGame
             public int Wisdom;
             public int Charisma;
 
+            //constructor for the charstats, but 
+            public CharStats(string CName, string CClass, string CRace, int CStrength, int CDexterity, int CConstitution, int CIntelligence, int CWisdom, int CCharisma)
+                {
+                //stats are set to default as per D&D rules V5, re-rolled later
+                CharacterName = CName;
+                CharacterClass = CClass;
+                CharacterRace = CRace;
+                Strength = CStrength;
+                Dexterity = CDexterity;
+                Constitution = CConstitution;
+                Intelligence = CIntelligence;
+                Wisdom = CWisdom;
+                Charisma = CCharisma;
+            }
+
         };
 
         //decared this as random so that the random number generator is more random
@@ -43,8 +58,8 @@ namespace TextAdventureGame
             string[] ClassChoices = { "Paladin", "Hunter", "Archer", "Warrior", "Necromancer" };
             string[,] ClassBonuses = { {"Pal"," "," " }};
 
-
-            MainCharacter = InitialiseCharacter(Line);
+            //Set up the character with default statistics
+            MainCharacter = MainCharacter = new CharStats("", "", "", 15, 14, 13, 12, 10, 8);
             MainCharacter.CharacterName = ChooseCharacterName();
             MainCharacter.CharacterRace = ChooseCharacterRaceOrClass(RaceChoices, "Race");
             MainCharacter.CharacterClass = ChooseCharacterRaceOrClass(ClassChoices, "Class");
@@ -96,42 +111,12 @@ namespace TextAdventureGame
                 }
             }
             FileReader.Close();
-            return (InitialiseCharacter(Line));
+            //call the charstats constructor and set up the character
+            return ( new CharStats(Line[0], Line[1], Line[2], int.Parse(Line[3]), int.Parse(Line[4]), int.Parse(Line[5]), int.Parse(Line[6]), int.Parse(Line[7]), int.Parse(Line[8])));
         }
-       
-        private static CharStats InitialiseCharacter(string[] Line)
-            {
-            CharStats MainCharacter;
 
-             
-            if (Line[0] == null)
-            {
-                //stats are set to default as per D&D rules V5, re-rolled later
-                MainCharacter.CharacterName = "";
-                MainCharacter.CharacterClass = "";
-                MainCharacter.CharacterRace = "";
-                MainCharacter.Strength = 15;
-                MainCharacter.Dexterity = 14;
-                MainCharacter.Constitution = 13;
-                MainCharacter.Intelligence = 12;
-                MainCharacter.Wisdom = 10;
-                MainCharacter.Charisma = 8;
-            }
-            else
-            {
-                //stats are set to default as per D&D rules V5, re-rolled later
-                MainCharacter.CharacterName = Line[0];
-                MainCharacter.CharacterClass = Line[1];
-                MainCharacter.CharacterRace = Line[2];
-                MainCharacter.Strength = int.Parse(Line[3]);
-                MainCharacter.Dexterity = int.Parse(Line[4]) ;
-                MainCharacter.Constitution = int.Parse(Line[5]);
-                MainCharacter.Intelligence = int.Parse(Line[6]);
-                MainCharacter.Wisdom = int.Parse(Line[7]);
-                MainCharacter.Charisma = int.Parse(Line[8]);
-            }
-            return MainCharacter;
-        }
+  
+     
 
         private static string ChooseCharacterName()
         {
